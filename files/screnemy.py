@@ -1,6 +1,6 @@
-from files.canvas_obj import object
+from files.canvas_obj import Obj
 
-class enemy(object):
+class Enemy(Obj):
     def __init__(self) -> None:
         super().__init__()
     def render(self,x,y):

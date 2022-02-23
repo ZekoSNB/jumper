@@ -1,15 +1,15 @@
 import pygame
-from files.canvas_obj import object
-from files.jumper import jumper
-from files.screnemy import enemy
+from files.canvas_obj import Obj
+from files.jumper import Player
+from files.screnemy import Enemy
 
-class Game(object):
+class Game(Obj):
     def __init__(self) -> None:
         super().__init__()
         pygame.init()
         self.quit = False
-        self.enemy = enemy()
-        self.player = jumper()
+        self.enemy = Enemy()
+        self.player = Player()
         self.clock = pygame.time.Clock()
         self.menu = True
         self.pause = pygame.Surface((1280,720))

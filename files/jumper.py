@@ -1,7 +1,7 @@
-from files.canvas_obj import object
+from files.canvas_obj import Obj
 
 
-class jumper(object):
+class Player(Obj):
     def __init__(self) -> None:
         super().__init__()
     def render(self,ind,x,y):

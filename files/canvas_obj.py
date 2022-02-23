@@ -2,7 +2,7 @@ import pygame, math
 
 
 
-class object:
+class Obj:
     def __init__(self) -> None:
         self.icon = pygame.image.load('assets/images/icon.png')
         self.backgroundload = pygame.image.load('assets/images/background3.png')
