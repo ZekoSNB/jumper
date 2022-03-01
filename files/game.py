@@ -51,6 +51,7 @@ class Game(Obj):
     def run(self):
         while not self.quit:
             self.event()
+            self.spfont.render_to(self.screen, (0,0), self.scorecount,(255,255,255))
             self.background()
             self.ground()
             self.line()

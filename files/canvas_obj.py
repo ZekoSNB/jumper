@@ -1,4 +1,4 @@
-import pygame, math
+import pygame, math, pygame.freetype
 
 
 
@@ -22,6 +22,7 @@ class Obj:
         pygame.display.set_icon(self.icon)
         pygame.display.set_caption('Alien Jumper')
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
+        self.spfont = pygame.freetype.Font('assets/fonts/SPACE.ttf', 32)
         self.grx = 0
         self.Lwidth = 3
         self.x = 150
