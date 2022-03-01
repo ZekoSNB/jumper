@@ -29,10 +29,11 @@ class Obj:
         self.ex = 900
         self.ey = 420
         self.ind = 0
-        self.last = pygame.time.get_ticks()
         self.cooldown = 400
         self.speed = 10
+        self.espeed = 10
         self.mass = 1
+        self.scorecount = 0
         self.is_jump = False
         self.grspeed = 3
     def background(self):
@@ -50,8 +51,9 @@ class Obj:
     #     if self.y <= (500-102):
     #         self.y += 3
     def iscoll(self,x1,x2,y1,y2):
+        x2 -=5
         dis = math.sqrt(math.pow(x2-x1,2)+ math.pow(y2-y1,2))
-        if dis>80:
+        if dis>76:
             return False
-        if dis<80:
+        if dis<76:
             return True

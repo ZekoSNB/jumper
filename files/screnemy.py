@@ -5,5 +5,6 @@ class Enemy(Obj):
         super().__init__()
     def render(self,x,y):
         self.screen.blit(self.enemyimg, (x,y))
-    def spawn(self):
-        pass
+    def spawn(self,x,y):
+        if x <0-100:
+            return (x+self.WIDTH+100)

@@ -11,11 +11,9 @@ class Game(Obj):
         self.enemy = Enemy()
         self.player = Player()
         self.clock = pygame.time.Clock()
-        self.menu = True
-        self.pause = pygame.Surface((1280,720))
-        self.pause = self.pause.convert_alpha()
-        self.pause.set_alpha(150)
-        self.pause.fill((255,255,255))
+        # self.menu = True
+        # self.pause = pygame.Surface((1280,720))
+        # self.pause = self.pause.convert_alpha()
     #
     def event(self):
         for event in pygame.event.get():
@@ -24,7 +22,6 @@ class Game(Obj):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.quit = True
-
                 if event.key == pygame.K_SPACE:
                     self.ind += 2
             if event.type == pygame.KEYUP:
@@ -43,11 +40,11 @@ class Game(Obj):
                 self.speed = 10
         
         if self.iscoll(self.x, self.ex,self.y,self.ey):
-            self.grspeed = 0
-            self.playerc.set_alpha(255)
-            # self.quit = True
-        if self.y >= 400:
-            self.y = 400
+            print('coll')
+        if self.ex <= -90:
+            self.ex = 1000
+        if self.ex == self.x+40 :
+            self.scorecount += 1
 
 
 
@@ -59,8 +56,8 @@ class Game(Obj):
             self.line()
             self.player.render(self.ind,self.x,self.y)
             self.enemy.render(self.ex,self.ey)
-            self.ex -= 10
-            self.screen.blit(self.pause,(0,0))
+            print(self.scorecount, self.ex, self.x-76)
+            self.ex -= self.espeed
             # self.gravity()
             pygame.display.update()
             self.clock.tick(60)
