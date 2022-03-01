@@ -4,6 +4,7 @@ import pygame, math, pygame.freetype
 
 class Obj:
     def __init__(self) -> None:
+        pygame.init()
         self.icon = pygame.image.load('assets/images/icon.png')
         self.backgroundload = pygame.image.load('assets/images/background3.png')
         self.groundimg = pygame.image.load('assets/images/ground_full.png')
@@ -48,9 +49,6 @@ class Obj:
             self.grx = 0
     def line(self):
         pygame.draw.line(self.screen, (255,255,255),(0,500), (1280, 500), self.Lwidth)
-    # def gravity(self):
-    #     if self.y <= (500-102):
-    #         self.y += 3
     def iscoll(self,x1,x2,y1,y2):
         x2 -=5
         dis = math.sqrt(math.pow(x2-x1,2)+ math.pow(y2-y1,2))

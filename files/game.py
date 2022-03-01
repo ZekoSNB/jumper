@@ -43,22 +43,21 @@ class Game(Obj):
             print('coll')
         if self.ex <= -90:
             self.ex = 1000
-        if self.ex == self.x+40 :
+        if self.ex == self.x-70 :
             self.scorecount += 1
+        self.ex -= self.espeed
 
 
 
     def run(self):
         while not self.quit:
             self.event()
-            self.spfont.render_to(self.screen, (0,0), self.scorecount,(255,255,255))
             self.background()
             self.ground()
             self.line()
             self.player.render(self.ind,self.x,self.y)
             self.enemy.render(self.ex,self.ey)
             print(self.scorecount, self.ex, self.x-76)
-            self.ex -= self.espeed
-            # self.gravity()
+            self.spfont.render_to(self.screen, (0,0), str(self.scorecount),(255,255,255))
             pygame.display.update()
             self.clock.tick(60)
