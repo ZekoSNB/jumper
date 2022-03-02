@@ -5,6 +5,7 @@ import pygame, math, pygame.freetype
 class Obj:
     def __init__(self) -> None:
         pygame.init()
+        # Loading Images and Fonts into the game
         self.icon = pygame.image.load('assets/images/icon.png')
         self.backgroundload = pygame.image.load('assets/images/background3.png')
         self.groundimg = pygame.image.load('assets/images/ground_full.png')
@@ -24,6 +25,7 @@ class Obj:
         pygame.display.set_caption('Alien Jumper')
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
         self.spfont = pygame.freetype.Font('assets/fonts/SPACE.ttf', 32)
+        # Variables 
         self.grx = 0
         self.Lwidth = 3
         self.x = 150
@@ -38,9 +40,14 @@ class Obj:
         self.scorecount = 0
         self.is_jump = False
         self.grspeed = 3
+        self.quit = False
+        self.FPS = 60
+        self.clock = pygame.time.Clock()
     def background(self):
+        # Background render function
         self.screen.blit(self.backgroundimg, (0,0))
     def ground(self):
+        # Ground render and Ground move
         self.grx -= self.grspeed
         self.screen.blit(self.groundimg, (self.grx,500))
         width = 6720
@@ -48,11 +55,20 @@ class Obj:
             self.screen.blit(self.groundimg, (width+self.grx,500))
             self.grx = 0
     def line(self):
+        # Line between background and ground
         pygame.draw.line(self.screen, (255,255,255),(0,500), (1280, 500), self.Lwidth)
     def iscoll(self,x1,x2,y1,y2):
+        # Collision function
         x2 -=5
+        # Collsion formula
         dis = math.sqrt(math.pow(x2-x1,2)+ math.pow(y2-y1,2))
         if dis>76:
             return False
         if dis<76:
             return True
+    def score(self):
+        # Render score on the display 
+        self.spfont.render_to(self.screen, (0,0), ('Your Score: ' + str(self.scorecount)),(255,255,255))
+    def textf(self,text):
+        # Rendering any text 
+        self.spfont.render_to(self.screen, (550,360), text, (255,255,255))
