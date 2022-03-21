@@ -1,6 +1,4 @@
-import pygame, math, pygame.freetype
-
-
+import pygame, math, pygame.freetype, json
 
 class Obj:
     def __init__(self) -> None:
@@ -26,22 +24,24 @@ class Obj:
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
         self.spfont = pygame.freetype.Font('assets/fonts/SPACE.ttf', 32)
         # Variables 
+        with open('files/JSON/settings.json', 'r') as f:
+            self.data = json.load(f)
         self.grx = 0
         self.Lwidth = 3
-        self.x = 150
+        self.x = 350
         self.y = 400
         self.ex = 900
         self.ey = 420
         self.ind = 0
         self.cooldown = 400
-        self.speed = 10
+        self.speed = 5.8
         self.espeed = 10
         self.mass = 1
         self.scorecount = 0
         self.is_jump = False
         self.grspeed = 3
         self.quit = False
-        self.FPS = 60
+        self.FPS = int(self.data['FPS'])
         self.clock = pygame.time.Clock()
     def background(self):
         # Background render function
@@ -57,6 +57,7 @@ class Obj:
     def line(self):
         # Line between background and ground
         pygame.draw.line(self.screen, (255,255,255),(0,500), (1280, 500), self.Lwidth)
+        pygame.draw.line(self.screen, (255,255,255),(250,500), (250, 720), self.Lwidth)
     def iscoll(self,x1,x2,y1,y2):
         # Collision function
         x2 -=5
