@@ -23,9 +23,18 @@ class Obj:
         pygame.display.set_caption('Alien Jumper')
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
         self.spfont = pygame.freetype.Font('assets/fonts/SPACE.ttf', 32)
+        self.spfont1 = pygame.freetype.Font('assets/fonts/SPACE.ttf', 28)
         # Variables 
         with open('files/JSON/settings.json', 'r') as f:
             self.data = json.load(f)
+        self.color = {
+            "silver" : 	(192, 192, 192),
+            "white"  :  (255,255,255),
+            "red"    : (255,0,0),
+            "blue"   : (0,0,255),
+            "green"  : (0,255,0)
+
+        }
         self.grx = 0
         self.Lwidth = 3
         self.x = 350
@@ -41,6 +50,8 @@ class Obj:
         self.is_jump = False
         self.grspeed = 3
         self.quit = False
+        self.gover = False
+        self.inmenu = False
         self.FPS = int(self.data['FPS'])
         self.clock = pygame.time.Clock()
     def background(self):
@@ -70,6 +81,6 @@ class Obj:
     def score(self):
         # Render score on the display 
         self.spfont.render_to(self.screen, (0,0), ('Your Score: ' + str(self.scorecount)),(255,255,255))
-    def textf(self,text):
+    def textf(self,text,x,y, color):
         # Rendering any text 
-        self.spfont.render_to(self.screen, (550,360), text, (255,255,255))
+        self.spfont.render_to(self.screen, (x,y), text, color)

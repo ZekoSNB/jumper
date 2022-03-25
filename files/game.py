@@ -21,9 +21,12 @@ class Game(Obj):
             if event.type == pygame.QUIT:
                 self.quit = True
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
+                if event.key == pygame.K_ESCAPE and not self.inmenu:
                     # self.quit = True
-                    self.menu.start()
+                    self.inmenu = True
+                    self.menu()
+                if event.key == pygame.K_ESCAPE and self.inmenu:
+                    self.quit = True
                 if event.key == pygame.K_SPACE:
                     self.ind += 2
             if event.type == pygame.KEYUP:
@@ -56,8 +59,20 @@ class Game(Obj):
         self.ex -= self.espeed
 
     def menu(self):
-        while not self.quit:
-            self.event
+        while not self.quit and not self.gover:
+            self.screen.fill((0,0,0))
+            self.event()
+            self.fevent()
+            self.textf('Do you want to quit?',360,260,self.color["white"])
+            self.textf('YES', 350, 340, self.color["silver"])
+            self.textf('NO', 850, 340, self.color["silver"])
+            pygame.display.update()
+        # while not self.quit and not self.gover:
+        #     self.screen.fill((0,0,0))
+        #     self.event()
+        #     self.fevent()
+        #     self.textf('Do you want to quit? OK No problem ', 360,550)
+        #     pygame.display.update( )
 
     def run(self):
         while not self.quit:
@@ -73,7 +88,8 @@ class Game(Obj):
             self.enemy.render(self.ex,self.ey)
             # Text functions
             self.score()
+            print(pygame.mouse.get_pos())
             # Update and Tick function
             pygame.display.update()
-            print(self.clock.get_fps())
+            # print(round(self.clock.get_fps()))
             self.clock.tick(self.FPS)
