@@ -28,7 +28,7 @@ class Obj:
         with open('files/JSON/settings.json', 'r') as f:
             self.data = json.load(f)
         self.color = {
-            "silver" : 	(192, 192, 192),
+            "silver" : 	(170, 170, 170),
             "white"  :  (255,255,255),
             "red"    : (255,0,0),
             "blue"   : (0,0,255),
@@ -37,6 +37,7 @@ class Obj:
         }
         self.grx = 0
         self.Lwidth = 3
+        self.mx,self.my = pygame.mouse.get_pos()
         self.x = 350
         self.y = 400
         self.ex = 900
@@ -52,6 +53,11 @@ class Obj:
         self.quit = False
         self.gover = False
         self.inmenu = False
+        self.mind = 0
+        # self.size = self.spfont.size("YES")
+        self.fall = 0.2
+        self.yescol = self.color["silver"]
+        self.nocol = self.color["silver"]
         self.FPS = int(self.data['FPS'])
         self.clock = pygame.time.Clock()
     def background(self):

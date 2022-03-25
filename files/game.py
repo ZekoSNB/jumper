@@ -4,7 +4,7 @@ from files.jumper import Player
 from files.screnemy import Enemy
 from files.canvas_obj import Obj
 class Game(Obj):
-    def __init__(self) -> None:\
+    def __init__(self) -> None:
         # Passing the Obj __init__ into Game.__init__
         super().__init__()
         # Initializing the Modules
@@ -23,22 +23,40 @@ class Game(Obj):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE and not self.inmenu:
                     # self.quit = True
+                    self.grspeed, self.fall = 0,0
+                    self.espeed,self.speed = 0,0
                     self.inmenu = True
                     self.menu()
-                if event.key == pygame.K_ESCAPE and self.inmenu:
-                    self.quit = True
+                # if event.key == pygame.K_ESCAPE and self.inmenu:
+                #     self.quit = True
                 if event.key == pygame.K_SPACE:
                     self.ind += 2
+                if event.key == pygame.K_RIGHT:
+                    self.mind += 1
+                if event.key == pygame.K_LEFT:
+                    self.mind -= 1
+                if event.key == pygame.K_RETURN and (self.mind%2) == 0:
+                    self.quit = True
+                if event.key == pygame.K_RETURN and (self.mind%2) == 1:
+                    self.fall = 0.2
+                    self.grspeed = 3
+                    self.speed = 5.8
+                    self.espeed = 10
+                    self.inmenu = False
+                    self.run()
+                
+
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE:
                     self.ind = 0
                     self.is_jump = True
     def event(self):
         # Jumping formula 
+        self.mx,self.my = pygame.mouse.get_pos()
         if self.is_jump and not self.iscoll(self.x, self.ex,self.y,self.ey):
             F = (1/2)*self.mass*(self.speed**2) # Jump/Kinetic energy formula 
             self.y -= F # Moving the player Y 
-            self.speed -= 0.2 # slowing speed down
+            self.speed -= self.fall  # slowing speed down
             if self.speed<0:
                 self.mass=-1
             if self.y >= 400:
@@ -64,8 +82,15 @@ class Game(Obj):
             self.event()
             self.fevent()
             self.textf('Do you want to quit?',360,260,self.color["white"])
-            self.textf('YES', 350, 340, self.color["silver"])
-            self.textf('NO', 850, 340, self.color["silver"])
+            if (self.mind%2) == 0:
+                self.yescol = self.color["white"]
+                self.nocol = self.color["silver"]
+            if (self.mind%2) == 1:
+                self.yescol = self.color["silver"]
+                self.nocol = self.color["white"]
+            self.textf('YES', 350, 340, self.yescol)
+            self.textf('NO', 850, 340, self.nocol)
+            print(self.mx, self.my)
             pygame.display.update()
         # while not self.quit and not self.gover:
         #     self.screen.fill((0,0,0))
@@ -83,13 +108,12 @@ class Game(Obj):
             self.background()
             self.ground()
             self.line()
+            # print(self.size)
             # Model rendering functions
             self.player.render(self.ind,self.x,self.y)
             self.enemy.render(self.ex,self.ey)
             # Text functions
             self.score()
-            print(pygame.mouse.get_pos())
             # Update and Tick function
             pygame.display.update()
-            # print(round(self.clock.get_fps()))
             self.clock.tick(self.FPS)
