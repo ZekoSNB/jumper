@@ -38,6 +38,7 @@ class Obj:
         self.grx = 0
         self.Lwidth = 3
         self.mx,self.my = pygame.mouse.get_pos()
+        self.mouse = pygame.mouse.get_pressed()
         self.x = 350
         self.y = 400
         self.ex = 900
@@ -54,8 +55,9 @@ class Obj:
         self.gover = False
         self.inmenu = False
         self.mind = 0
-        # self.size = self.spfont.size("YES")
         self.fall = 0.2
+        self.Hyes,self.Hno = False,False
+        self.statex, self.statey, self.statehov = False,False,False
         self.yescol = self.color["silver"]
         self.nocol = self.color["silver"]
         self.FPS = int(self.data['FPS'])
@@ -90,3 +92,16 @@ class Obj:
     def textf(self,text,x,y, color):
         # Rendering any text 
         self.spfont.render_to(self.screen, (x,y), text, color)
+    def hover(self,x,y,height,width):
+        if self.mx<=(x+width) and self.mx>= x:
+            self.statex = True
+        else: 
+            self.statex = False
+        if self.my<=(y+height) and self.my>= y:
+            self.statey = True
+        else:
+            self.statey = False
+        if self.statex and self.statey:
+            return True
+        else: 
+            return False

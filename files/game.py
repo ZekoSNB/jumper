@@ -53,6 +53,7 @@ class Game(Obj):
     def event(self):
         # Jumping formula 
         self.mx,self.my = pygame.mouse.get_pos()
+        self.mouse = pygame.mouse.get_pressed()
         if self.is_jump and not self.iscoll(self.x, self.ex,self.y,self.ey):
             F = (1/2)*self.mass*(self.speed**2) # Jump/Kinetic energy formula 
             self.y -= F # Moving the player Y 
@@ -75,22 +76,46 @@ class Game(Obj):
         if self.ex == self.x-70 :
             self.scorecount += 1
         self.ex -= self.espeed
+        if self.hover(350,340,32,96):
+            self.Hyes = True
+        else:
+            self.Hyes = False
+        if self.hover(850,340,32,64):
+            self.Hno = True
+        else:
+            self.Hno = False
+
+
+    def mouse_detection(self):
+        if self.mouse[0] and self.Hyes:
+            self.quit = True
+        if self.mouse[0] and self.Hno:
+            self.fall = 0.2
+            self.grspeed = 3
+            self.speed = 5.8
+            self.espeed = 10
+            self.inmenu = False
+            self.run()
+            
+
 
     def menu(self):
         while not self.quit and not self.gover:
             self.screen.fill((0,0,0))
+            self.mouse_detection()
             self.event()
             self.fevent()
             self.textf('Do you want to quit?',360,260,self.color["white"])
-            if (self.mind%2) == 0:
+            if (self.mind%2) == 0 or self.Hyes:
+                self.mind = 0
                 self.yescol = self.color["white"]
                 self.nocol = self.color["silver"]
-            if (self.mind%2) == 1:
+            if (self.mind%2) == 1 or self.Hno:
+                self.mind = 1
                 self.yescol = self.color["silver"]
                 self.nocol = self.color["white"]
             self.textf('YES', 350, 340, self.yescol)
             self.textf('NO', 850, 340, self.nocol)
-            print(self.mx, self.my)
             pygame.display.update()
         # while not self.quit and not self.gover:
         #     self.screen.fill((0,0,0))
