@@ -26,7 +26,7 @@ class Game(Obj):
                     self.grspeed, self.fall = 0,0
                     self.espeed,self.speed = 0,0
                     self.inmenu = True
-                    self.menu()
+                    self.fquit()
                 # if event.key == pygame.K_ESCAPE and self.inmenu:
                 #     self.quit = True
                 if event.key == pygame.K_SPACE:
@@ -66,9 +66,9 @@ class Game(Obj):
                 self.speed = 5.8
             # pygame.time.delay(10)
         # Collision function
-        if self.iscoll(self.x, self.ex,self.y,self.ey):
-            self.grspeed = 0
-            self.espeed,self.speed = 0,0
+        if self.iscoll(self.x, self.ex,self.y,self.ey) and not self.gover:
+            self.gover = True
+            self.game_over()
             
         if self.ex <= -90:
             self.ex = 1000
@@ -99,21 +99,22 @@ class Game(Obj):
             
 
 
-    def menu(self):
+
+    def fquit(self):
         while not self.quit and not self.gover:
-            self.screen.fill((0,0,0))
+            self.screen.blit(self.pause_surf, (0,0))
             self.mouse_detection()
             self.event()
             self.fevent()
             self.textf('Do you want to quit?',360,260,self.color["white"])
             if (self.mind%2) == 0 or self.Hyes:
                 self.mind = 0
-                self.yescol = self.color["white"]
+                self.yescol = self.color["dark_white"]
                 self.nocol = self.color["silver"]
             if (self.mind%2) == 1 or self.Hno:
                 self.mind = 1
                 self.yescol = self.color["silver"]
-                self.nocol = self.color["white"]
+                self.nocol = self.color["dark_white"]
             self.textf('YES', 350, 340, self.yescol)
             self.textf('NO', 850, 340, self.nocol)
             pygame.display.update()
@@ -123,6 +124,24 @@ class Game(Obj):
         #     self.fevent()
         #     self.textf('Do you want to quit? OK No problem ', 360,550)
         #     pygame.display.update( )
+    def game_over(self):
+        while not self.quit and self.gover:
+            self.screen.blit(self.pause_surf,(0,0))
+            self.mouse_detection()
+            self.event()
+            self.fevent()
+            self.textf('Do you want to Restart?',320,260,self.color["white"])
+            if (self.mind%2) == 0 or self.Hyes:
+                self.mind = 0
+                self.yescol = self.color["dark_white"]
+                self.nocol = self.color["silver"]
+            if (self.mind%2) == 1 or self.Hno:
+                self.mind = 1
+                self.yescol = self.color["silver"]
+                self.nocol = self.color["dark_white"]
+            self.textf('YES', 350, 340, self.yescol)
+            self.textf('NO', 850, 340, self.nocol)
+            pygame.display.update()
 
     def run(self):
         while not self.quit:

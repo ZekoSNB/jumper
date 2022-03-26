@@ -30,9 +30,11 @@ class Obj:
         self.color = {
             "silver" : 	(170, 170, 170),
             "white"  :  (255,255,255),
+            "dark_white": (240,240,240),
             "red"    : (255,0,0),
             "blue"   : (0,0,255),
-            "green"  : (0,255,0)
+            "green"  : (0,255,0),
+            "light_grey": (30,30,30)
 
         }
         self.grx = 0
@@ -56,6 +58,9 @@ class Obj:
         self.inmenu = False
         self.mind = 0
         self.fall = 0.2
+        self.pause_surf = pygame.Surface((self.WIDTH, self.HEIGHT))
+        self.pause_surf.set_alpha(255/10)
+        self.pause_surf.fill(self.color["light_grey"])
         self.Hyes,self.Hno = False,False
         self.statex, self.statey, self.statehov = False,False,False
         self.yescol = self.color["silver"]
