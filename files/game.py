@@ -20,13 +20,22 @@ class Game(Obj):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.quit = True
-            if event.type == pygame.KEYDOWN:
+            if event.type == pygame.KEYDOWN and not self.gover:
                 if event.key == pygame.K_ESCAPE and not self.inmenu:
                     # self.quit = True
                     self.grspeed, self.fall = 0,0
                     self.espeed,self.speed = 0,0
                     self.inmenu = True
                     self.fquit()
+                if event.key == pygame.K_ESCAPE and self.inmenu:
+                    self.fall = 0.2
+                    self.grspeed = 3
+                    self.speed = 5.8
+                    self.espeed = 10
+                    self.gover = False
+                    self.inmenu = False
+                    self.run()
+
                 # if event.key == pygame.K_ESCAPE and self.inmenu:
                 #     self.quit = True
                 if event.key == pygame.K_SPACE:
@@ -43,6 +52,7 @@ class Game(Obj):
                     self.speed = 5.8
                     self.espeed = 10
                     self.inmenu = False
+                    self.gover = False
                     self.run()
                 
 
