@@ -47,17 +47,23 @@ class Game(Obj):
                 if event.key == pygame.K_RETURN and (self.mind%2) == 0:
                     self.quit = True
                 if event.key == pygame.K_RETURN and (self.mind%2) == 1:
-                    self.fall = 0.2
-                    self.grspeed = 3
-                    self.speed = 5.8
-                    self.espeed = 10
-                    self.inmenu = False
-                    self.gover = False
-                    self.run()
-                
-
+                    if self.speed>0:
+                        self.fall = 0.2
+                        self.grspeed = 3
+                        self.espeed = 10
+                        self.inmenu = False
+                        self.gover = False
+                        self.run()
+                    else:
+                        self.fall = 0.2
+                        self.grspeed = 3
+                        self.speed = 5.8
+                        self.espeed = 10
+                        self.inmenu = False
+                        self.gover = False
+                        self.run()
             if event.type == pygame.KEYUP:
-                if event.key == pygame.K_SPACE:
+                if event.key == pygame.K_SPACE: 
                     self.ind = 0
                     self.is_jump = True
     def event(self):
@@ -97,14 +103,46 @@ class Game(Obj):
 
 
     def mouse_detection(self):
-        if self.mouse[0] and self.Hyes:
+        if self.mouse[0] and self.Hyes and not self.gover:
             self.quit = True
-        if self.mouse[0] and self.Hno:
-            self.fall = 0.2
-            self.grspeed = 3
+        if self.mouse[0] and self.Hno and not self.gover:
+            if self.speed>0:
+                self.fall = 0.2
+                self.grspeed = 3
+                self.espeed = 10
+                self.inmenu = False
+                self.gover = False
+                self.run()
+            else:
+                self.fall = 0.2
+                self.grspeed = 3
+                self.speed = 5.8
+                self.espeed = 10
+                self.inmenu = False
+                self.gover = False
+                self.run()
+        if self.mouse[0] and self.Hno and self.gover:
+            self.quit = True
+        if self.mouse[0] and self.Hyes and self.gover:
+            self.grx = 0
+            self.Lwidth = 3
+            self.x = 350
+            self.y = 400
+            self.ex = 900
+            self.ey = 420
+            self.ind = 0
+            self.cooldown = 400
             self.speed = 5.8
             self.espeed = 10
+            self.mass = 1
+            self.scorecount = 0
+            self.is_jump = False
+            self.grspeed = 3
+            self.quit = False
+            self.gover = False
             self.inmenu = False
+            self.mind = 0
+            self.fall = 0.2
             self.run()
             
 

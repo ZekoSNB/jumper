@@ -39,8 +39,6 @@ class Obj:
         }
         self.grx = 0
         self.Lwidth = 3
-        self.mx,self.my = pygame.mouse.get_pos()
-        self.mouse = pygame.mouse.get_pressed()
         self.x = 350
         self.y = 400
         self.ex = 900
@@ -58,6 +56,8 @@ class Obj:
         self.inmenu = False
         self.mind = 0
         self.fall = 0.2
+        self.mx,self.my = pygame.mouse.get_pos()
+        self.mouse = pygame.mouse.get_pressed()
         self.pause_surf = pygame.Surface((self.WIDTH, self.HEIGHT))
         self.pause_surf.set_alpha(255/10)
         self.pause_surf.fill(self.color["light_grey"])
