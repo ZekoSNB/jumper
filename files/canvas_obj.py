@@ -66,6 +66,7 @@ class Obj:
         self.yescol = self.color["silver"]
         self.nocol = self.color["silver"]
         self.FPS = int(self.data['FPS'])
+        self.hiscore = int(self.data['HIGHEST'])
         self.clock = pygame.time.Clock()
     def background(self):
         # Background render function

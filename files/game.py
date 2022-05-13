@@ -70,7 +70,7 @@ class Game(Obj):
         # Jumping formula 
         self.mx,self.my = pygame.mouse.get_pos()
         self.mouse = pygame.mouse.get_pressed()
-        if self.is_jump and not self.iscoll(self.x, self.ex,self.y,self.ey):
+        if self.is_jump and not self.gover:
             F = (1/2)*self.mass*(self.speed**2) # Jump/Kinetic energy formula 
             self.y -= F # Moving the player Y 
             self.speed -= self.fall  # slowing speed down
@@ -89,7 +89,7 @@ class Game(Obj):
         if self.ex <= -90:
             self.ex = 1000
         # Score counting
-        if self.ex == self.x-70 :
+        if self.ex == self.x-70 and not self.gover:
             self.scorecount += 1
         self.ex -= self.espeed
         if self.hover(350,340,32,96):
@@ -200,6 +200,7 @@ class Game(Obj):
             self.background()
             self.ground()
             self.line()
+            print(self.scorecount,self.gover)
             # print(self.size)
             # Model rendering functions
             self.player.render(self.ind,self.x,self.y)
