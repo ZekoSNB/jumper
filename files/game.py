@@ -35,7 +35,6 @@ class Game(Obj):
                     self.gover = False
                     self.inmenu = False
                     self.run()
-
                 # if event.key == pygame.K_ESCAPE and self.inmenu:
                 #     self.quit = True
                 if event.key == pygame.K_SPACE:
@@ -200,7 +199,9 @@ class Game(Obj):
             self.background()
             self.ground()
             self.line()
-            print(self.scorecount,self.gover)
+            self.vertlix -= self.grspeed
+            if self.vertlix>-10:
+                self.high_score()
             # print(self.size)
             # Model rendering functions
             self.player.render(self.ind,self.x,self.y)

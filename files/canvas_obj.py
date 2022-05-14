@@ -22,6 +22,7 @@ class Obj:
         pygame.display.set_icon(self.icon)
         pygame.display.set_caption('Alien Jumper')
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
+        self.pyfont = pygame.font.Font('assets/fonts/SPACE.ttf', 32)
         self.spfont = pygame.freetype.Font('assets/fonts/SPACE.ttf', 32)
         self.spfont1 = pygame.freetype.Font('assets/fonts/SPACE.ttf', 28)
         # Variables 
@@ -46,7 +47,7 @@ class Obj:
         self.ind = 0
         self.cooldown = 400
         self.speed = 5.8
-        self.espeed = 10
+        self.espeed = 1
         self.mass = 1
         self.scorecount = 0
         self.is_jump = False
@@ -67,7 +68,10 @@ class Obj:
         self.nocol = self.color["silver"]
         self.FPS = int(self.data['FPS'])
         self.hiscore = int(self.data['HIGHEST'])
+        self.hiscorestr = str(f"Highest: {self.hiscore}")
+        self.text = self.pyfont.render(self.hiscorestr, True,self.color["white"])
         self.clock = pygame.time.Clock()
+        self.vertlix,self.vertliy = 250,500
     def background(self):
         # Background render function
         self.screen.blit(self.backgroundimg, (0,0))
@@ -82,7 +86,8 @@ class Obj:
     def line(self):
         # Line between background and ground
         pygame.draw.line(self.screen, (255,255,255),(0,500), (1280, 500), self.Lwidth)
-        pygame.draw.line(self.screen, (255,255,255),(250,500), (250, 720), self.Lwidth)
+        if self.vertlix>-10:
+            pygame.draw.line(self.screen, (255,255,255),(self.vertlix,self.vertliy), (self.vertlix, (self.vertliy+220)), self.Lwidth)
     def iscoll(self,x1,x2,y1,y2):
         # Collision function
         x2 -=5
@@ -94,7 +99,7 @@ class Obj:
             return True
     def score(self):
         # Render score on the display 
-        self.spfont.render_to(self.screen, (0,0), ('Your Score: ' + str(self.scorecount)),(255,255,255))
+        self.spfont.render_to(self.screen, (0,0), ('Your Score: ' + str(self.scorecount)), self.color["white"])
     def textf(self,text,x,y, color):
         # Rendering any text 
         self.spfont.render_to(self.screen, (x,y), text, color)
@@ -111,3 +116,6 @@ class Obj:
             return True
         else: 
             return False
+    def high_score(self):
+        # self.spfont.render_to(self.screen, ((self.vertlix-250),(self.vertliy)), self.hiscorestr,self.color["white"])
+        self.screen.blit(self.text, (self.vertlix-250, self.vertliy+32))
