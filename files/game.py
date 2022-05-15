@@ -31,12 +31,19 @@ class Game(Obj):
                     self.fall = 0.2
                     self.grspeed = 3
                     self.speed = 5.8
-                    self.espeed = 10
+                    self.espeed = 7
                     self.gover = False
                     self.inmenu = False
                     self.run()
-                # if event.key == pygame.K_ESCAPE and self.inmenu:
-                #     self.quit = True
+                if event.key == pygame.K_SPACE and not self.start:
+                    self.fall = 0.2
+                    self.grspeed = 3
+                    self.speed = 5.8
+                    self.espeed = 7
+                    self.gover = False
+                    self.inmenu = False
+                    self.start = True
+                    self.run()
                 if event.key == pygame.K_SPACE:
                     self.ind += 2
                 if event.key == pygame.K_RIGHT:
@@ -49,7 +56,7 @@ class Game(Obj):
                     if self.speed>0:
                         self.fall = 0.2
                         self.grspeed = 3
-                        self.espeed = 10
+                        self.espeed = 7
                         self.inmenu = False
                         self.gover = False
                         self.run()
@@ -57,7 +64,7 @@ class Game(Obj):
                         self.fall = 0.2
                         self.grspeed = 3
                         self.speed = 5.8
-                        self.espeed = 10
+                        self.espeed = 7
                         self.inmenu = False
                         self.gover = False
                         self.run()
@@ -99,6 +106,10 @@ class Game(Obj):
             self.Hno = True
         else:
             self.Hno = False
+        if not self.start:
+            self.grspeed, self.fall = 0,0
+            self.espeed,self.speed = 0,0
+
 
 
     def mouse_detection(self):
@@ -108,7 +119,7 @@ class Game(Obj):
             if self.speed>0:
                 self.fall = 0.2
                 self.grspeed = 3
-                self.espeed = 10
+                self.espeed = 7
                 self.inmenu = False
                 self.gover = False
                 self.run()
@@ -116,7 +127,7 @@ class Game(Obj):
                 self.fall = 0.2
                 self.grspeed = 3
                 self.speed = 5.8
-                self.espeed = 10
+                self.espeed = 7
                 self.inmenu = False
                 self.gover = False
                 self.run()
@@ -132,7 +143,7 @@ class Game(Obj):
             self.ind = 0
             self.cooldown = 400
             self.speed = 5.8
-            self.espeed = 10
+            self.espeed = 7
             self.mass = 1
             self.scorecount = 0
             self.is_jump = False
@@ -142,6 +153,7 @@ class Game(Obj):
             self.inmenu = False
             self.mind = 0
             self.fall = 0.2
+            self.start = False
             self.run()
             
 
@@ -199,10 +211,11 @@ class Game(Obj):
             self.background()
             self.ground()
             self.line()
+            # Text moving at start
             self.vertlix -= self.grspeed
-            if self.vertlix>-10:
+            if self.vertlix>-850:
                 self.high_score()
-            # print(self.size)
+                self.start_text()
             # Model rendering functions
             self.player.render(self.ind,self.x,self.y)
             self.enemy.render(self.ex,self.ey)

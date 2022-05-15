@@ -35,19 +35,20 @@ class Obj:
             "red"    : (255,0,0),
             "blue"   : (0,0,255),
             "green"  : (0,255,0),
-            "light_grey": (30,30,30)
+            "light_grey": (30,30,30),
+            "black"  : (0,0,0)
 
         }
         self.grx = 0
         self.Lwidth = 3
         self.x = 350
         self.y = 400
-        self.ex = 900
+        self.ex = 1100
         self.ey = 420
         self.ind = 0
         self.cooldown = 400
         self.speed = 5.8
-        self.espeed = 1
+        self.espeed = 7
         self.mass = 1
         self.scorecount = 0
         self.is_jump = False
@@ -55,6 +56,7 @@ class Obj:
         self.quit = False
         self.gover = False
         self.inmenu = False
+        self.start = False
         self.mind = 0
         self.fall = 0.2
         self.mx,self.my = pygame.mouse.get_pos()
@@ -70,6 +72,8 @@ class Obj:
         self.hiscore = int(self.data['HIGHEST'])
         self.hiscorestr = str(f"Highest: {self.hiscore}")
         self.text = self.pyfont.render(self.hiscorestr, True,self.color["white"])
+        self.starte = self.pyfont.render("Press       to start the game", True,self.color["white"])
+        self.spacete = self.pyfont.render("SPACE", True, self.color["white"],self.color["black"])
         self.clock = pygame.time.Clock()
         self.vertlix,self.vertliy = 250,500
     def background(self):
@@ -119,3 +123,6 @@ class Obj:
     def high_score(self):
         # self.spfont.render_to(self.screen, ((self.vertlix-250),(self.vertliy)), self.hiscorestr,self.color["white"])
         self.screen.blit(self.text, (self.vertlix-250, self.vertliy+32))
+    def start_text(self):
+        self.screen.blit(self.starte, ((self.vertlix+30), self.vertliy+30))
+        self.screen.blit(self.spacete,((self.vertlix+200), (self.vertliy+30)))
