@@ -220,7 +220,8 @@ class Game(Obj):
             self.player.render(self.ind,self.x,self.y)
             self.enemy.render(self.ex,self.ey)
             # Text functions
+            print(self.gover, self.ex)
             self.score()
             # Update and Tick function
-            pygame.display.update()
             self.clock.tick(self.FPS)
+            pygame.display.update()
