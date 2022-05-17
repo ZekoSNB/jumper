@@ -7,3 +7,5 @@
 - if you hit the enemy you **LOST!**
 # Jump Formula
 - F = (1/2)\* **mass** \*(**velocity**^2)
+
+> **DON'T MOVE GAME FILES**
