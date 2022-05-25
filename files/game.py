@@ -10,10 +10,6 @@ class Game(Obj):
         # Initializing the Modules
         self.enemy = Enemy()
         self.player = Player()
-        # self.menu = Menu()
-        # self.menu = True
-        # self.pause = pygame.Surface((1280,720))
-        # self.pause = self.pause.convert_alpha()
     # even function to check user input
     def fevent(self):
         # Event Loop for the keys etc.
@@ -68,6 +64,36 @@ class Game(Obj):
                         self.inmenu = False
                         self.gover = False
                         self.run()
+            if event.type == pygame.KEYDOWN and self.gover:
+                if event.key == pygame.K_RIGHT:
+                    self.mind += 1
+                if event.key == pygame.K_LEFT:
+                    self.mind -= 1
+                if event.key == pygame.K_RETURN and (self.mind%2) == 1:
+                    self.quit = True
+                if event.key == pygame.K_RETURN and (self.mind%2) == 0:
+                    self.grx = 0
+                    self.Lwidth = 3
+                    self.x = 350
+                    self.y = 400
+                    self.ex = 900
+                    self.ey = 420
+                    self.ind = 0
+                    self.cooldown = 400
+                    self.speed = 5.8
+                    self.espeed = 7
+                    self.mass = 1
+                    self.scorecount = 0
+                    self.is_jump = False
+                    self.grspeed = 3
+                    self.quit = False
+                    self.gover = False
+                    self.inmenu = False
+                    self.mind = 0
+                    self.fall = 0.2
+                    self.start = False
+                    self.vertlix,self.vertliy = 240+self.add,500
+                    self.run()
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE: 
                     self.ind = 0
@@ -86,16 +112,15 @@ class Game(Obj):
                 self.is_jump = False
                 self.mass = 1
                 self.speed = 5.8
-            # pygame.time.delay(10)
         # Collision function
         if self.iscoll(self.x, self.ex,self.y,self.ey) and not self.gover:
             self.gover = True
             self.game_over()
             
         if self.ex <= -90:
-            self.ex = 1000
+            self.ex = 1100
         # Score counting
-        if self.ex == self.x-70 and not self.gover:
+        if round(self.ex/10)*10 == self.x-70:
             self.scorecount += 1
         self.ex -= self.espeed
         if self.hover(350,340,32,96):
@@ -109,6 +134,7 @@ class Game(Obj):
         if not self.start:
             self.grspeed, self.fall = 0,0
             self.espeed,self.speed = 0,0
+        self.vertlix -= self.grspeed
 
 
 
@@ -154,6 +180,7 @@ class Game(Obj):
             self.mind = 0
             self.fall = 0.2
             self.start = False
+            self.vertlix,self.vertliy = 240+self.add,500
             self.run()
             
 
@@ -177,12 +204,6 @@ class Game(Obj):
             self.textf('YES', 350, 340, self.yescol)
             self.textf('NO', 850, 340, self.nocol)
             pygame.display.update()
-        # while not self.quit and not self.gover:
-        #     self.screen.fill((0,0,0))
-        #     self.event()
-        #     self.fevent()
-        #     self.textf('Do you want to quit? OK No problem ', 360,550)
-        #     pygame.display.update( )
     def game_over(self):
         while not self.quit and self.gover:
             self.screen.blit(self.pause_surf,(0,0))
@@ -211,16 +232,14 @@ class Game(Obj):
             self.background()
             self.ground()
             self.line()
-            # Text moving at start
-            self.vertlix -= self.grspeed
-            if self.vertlix>-850:
+            if self.vertlix>self.stop_render:
                 self.high_score()
                 self.start_text()
             # Model rendering functions
             self.player.render(self.ind,self.x,self.y)
             self.enemy.render(self.ex,self.ey)
             # Text functions
-            print(self.gover, self.ex)
+            # print( self.scorecount)
             self.score()
             # Update and Tick function
             self.clock.tick(self.FPS)

@@ -28,6 +28,7 @@ class Obj:
         # Variables 
         with open('files/JSON/settings.json', 'r') as f:
             self.data = json.load(f)
+            f.close()
         self.color = {
             "silver" : 	(170, 170, 170),
             "white"  :  (255,255,255),
@@ -75,7 +76,15 @@ class Obj:
         self.starte = self.pyfont.render("Press       to start the game", True,self.color["white"])
         self.spacete = self.pyfont.render("SPACE", True, self.color["white"],self.color["black"])
         self.clock = pygame.time.Clock()
-        self.vertlix,self.vertliy = 250,500
+        # vertical line x = vertlix | vertical line y = vertliy
+        self.vertlix,self.vertliy = 240,500
+        self.add = 0
+        self.listscore = list(str(self.hiscore))
+        self.stop_render = -850
+        for i in self.listscore:
+            self.add += 20
+            self.stop_render -= 20
+        self.vertlix += self.add
     def background(self):
         # Background render function
         self.screen.blit(self.backgroundimg, (0,0))
@@ -121,8 +130,7 @@ class Obj:
         else: 
             return False
     def high_score(self):
-        # self.spfont.render_to(self.screen, ((self.vertlix-250),(self.vertliy)), self.hiscorestr,self.color["white"])
-        self.screen.blit(self.text, (self.vertlix-250, self.vertliy+32))
+        self.screen.blit(self.text, ((self.vertlix-240-self.add), 532))
     def start_text(self):
         self.screen.blit(self.starte, ((self.vertlix+30), self.vertliy+30))
         self.screen.blit(self.spacete,((self.vertlix+200), (self.vertliy+30)))
