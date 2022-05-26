@@ -5,7 +5,7 @@ class Obj:
         pygame.init()
         # Loading Images and Fonts into the game
         self.icon = pygame.image.load('assets/images/icon.png')
-        self.backgroundload = pygame.image.load('assets/images/background3.png')
+        self.backgroundload = pygame.image.load('assets/images/background4.png')
         self.groundimg = pygame.image.load('assets/images/ground_full.png')
         self.playerc = pygame.image.load('assets/images/alien1.png')
         self.playerc1 = pygame.image.load('assets/images/alien1_crouch.png')
@@ -60,6 +60,7 @@ class Obj:
         self.start = False
         self.mind = 0
         self.fall = 0.2
+        self.jumpindex = 0
         self.mx,self.my = pygame.mouse.get_pos()
         self.mouse = pygame.mouse.get_pressed()
         self.pause_surf = pygame.Surface((self.WIDTH, self.HEIGHT))

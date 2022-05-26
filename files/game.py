@@ -40,30 +40,22 @@ class Game(Obj):
                     self.inmenu = False
                     self.start = True
                     self.run()
-                if event.key == pygame.K_SPACE:
+                if event.key == pygame.K_SPACE and self.jumpindex != 0:
                     self.ind += 2
                 if event.key == pygame.K_RIGHT:
                     self.mind += 1
                 if event.key == pygame.K_LEFT:
                     self.mind -= 1
-                if event.key == pygame.K_RETURN and (self.mind%2) == 0:
+                if event.key == pygame.K_RETURN and (self.mind%2) == 0 and self.inmenu:
                     self.quit = True
-                if event.key == pygame.K_RETURN and (self.mind%2) == 1:
-                    if self.speed>0:
-                        self.fall = 0.2
-                        self.grspeed = 3
-                        self.espeed = 7
-                        self.inmenu = False
-                        self.gover = False
-                        self.run()
-                    else:
-                        self.fall = 0.2
-                        self.grspeed = 3
-                        self.speed = 5.8
-                        self.espeed = 7
-                        self.inmenu = False
-                        self.gover = False
-                        self.run()
+                if event.key == pygame.K_RETURN and (self.mind%2) == 1 and self.inmenu:
+                    self.fall = 0.2
+                    self.grspeed = 3
+                    self.speed = 5.8
+                    self.espeed = 7
+                    self.inmenu = False
+                    self.gover = False
+                    self.run()
             if event.type == pygame.KEYDOWN and self.gover:
                 if event.key == pygame.K_RIGHT:
                     self.mind += 1
@@ -84,6 +76,7 @@ class Game(Obj):
                     self.espeed = 7
                     self.mass = 1
                     self.scorecount = 0
+                    self.jumpindex = 0
                     self.is_jump = False
                     self.grspeed = 3
                     self.quit = False
@@ -95,9 +88,12 @@ class Game(Obj):
                     self.vertlix,self.vertliy = 240+self.add,500
                     self.run()
             if event.type == pygame.KEYUP:
-                if event.key == pygame.K_SPACE: 
-                    self.ind = 0
-                    self.is_jump = True
+                if event.key == pygame.K_SPACE:
+                    if self.jumpindex != 0:
+                        self.ind = 0
+                        self.is_jump = True
+                    else: 
+                        self.jumpindex=1
     def event(self):
         # Jumping formula 
         self.mx,self.my = pygame.mouse.get_pos()
@@ -142,14 +138,6 @@ class Game(Obj):
         if self.mouse[0] and self.Hyes and not self.gover:
             self.quit = True
         if self.mouse[0] and self.Hno and not self.gover:
-            if self.speed>0:
-                self.fall = 0.2
-                self.grspeed = 3
-                self.espeed = 7
-                self.inmenu = False
-                self.gover = False
-                self.run()
-            else:
                 self.fall = 0.2
                 self.grspeed = 3
                 self.speed = 5.8
@@ -170,6 +158,7 @@ class Game(Obj):
             self.cooldown = 400
             self.speed = 5.8
             self.espeed = 7
+            self.jumpindex = 0
             self.mass = 1
             self.scorecount = 0
             self.is_jump = False
@@ -239,7 +228,6 @@ class Game(Obj):
             self.player.render(self.ind,self.x,self.y)
             self.enemy.render(self.ex,self.ey)
             # Text functions
-            # print( self.scorecount)
             self.score()
             # Update and Tick function
             self.clock.tick(self.FPS)
