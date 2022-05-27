@@ -45,7 +45,7 @@ class Obj:
         self.x = 350
         self.y = 400
         self.ex = 1100
-        self.ey = 420
+        self.ey = 42
         self.ind = 0
         self.cooldown = 400
         self.speed = 5.8
