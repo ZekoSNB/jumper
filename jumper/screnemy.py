@@ -1,6 +1,6 @@
-from jumper.canvas_obj import Obj
+from jumper.canvas_obj import CanvObj
 import pygame
-class Enemy(Obj):
+class Enemy(CanvObj):
     def __init__(self,x,y,screen,speed) -> None:
         super().__init__(x,y,screen)
         self.enemyimg = pygame.image.load('assets/images/enemy1.png')
@@ -8,6 +8,3 @@ class Enemy(Obj):
         self.speed = speed
     def render(self):
         self.screen.blit(self.enemyimg, (self.x,self.y))
-    # def spawn(self,x,y):
-    #     if x <0-100:
-    #         return (x+self.WIDTH+100)

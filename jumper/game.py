@@ -8,14 +8,7 @@ class Game:
         self.icon = pygame.image.load('assets/images/icon.png')
         self.backgroundload = pygame.image.load('assets/images/background4.png')
         self.groundimg = pygame.image.load('assets/images/ground_full.png')
-        self.playerc = pygame.image.load('assets/images/alien1.png')
-        self.playerc1 = pygame.image.load('assets/images/alien1_crouch.png')
-        self.playerc2 = pygame.image.load('assets/images/alien1_crouch2.png')
-        self.playerc = pygame.transform.scale(self.playerc, (100,100))
-        self.playerc1 = pygame.transform.scale(self.playerc1, (100,100))
-        self.playerc2 = pygame.transform.scale(self.playerc2, (100,100))
         self.groundimg = pygame.transform.scale(self.groundimg, (8000, 280))
-        self.pli = [self.playerc,self.playerc1,self.playerc2]
         self.backgroundimg = pygame.transform.scale(self.backgroundload, (1280,520))
         self.WIDTH, self.HEIGHT = 1280,720
         pygame.display.set_icon(self.icon)
@@ -79,7 +72,44 @@ class Game:
             self.stop_render -= 20
         self.vertlix += self.add
         self.enemy = Enemy(1100,420,self.screen,7)
-        self.player = Player(350,400, self.screen,self.pli,5.8)
+        self.player = Player(350,400, self.screen,5.8)
+    def save_data(self):
+        with open('jumper/JSON/settings.json', 'w'):
+            if self.data["HIGHEST"] < self.scorecount:
+                self.data["HIGHEST"] = self.scorecount
+    def pause(self):
+            self.grspeed, self.fall = 0,0
+            self.enemy.speed,self.player.speed = 0,0
+    def fstart(self):
+        self.fall = 0.2
+        self.grspeed = 3
+        self.enemy.speed,self.player.speed = 7,5.8
+        self.gover = False
+        self.inmenu = False
+    def restart(self):
+        self.grx = 0
+        self.Lwidth = 3
+        self.player.x = 350
+        self.player.y = 400
+        self.enemy.x = 900
+        self.enemy.y = 420
+        self.ind = 0
+        self.cooldown = 400
+        self.enemy.speed,self.player.speed = 7,5.8
+        self.mass = 1
+        self.scorecount = 0
+        self.jumpindex = 0
+        self.is_jump = False
+        self.grspeed = 3
+        self.quit = False
+        self.gover = False
+        self.inmenu = False
+        self.mind = 0
+        self.fall = 0.2
+        self.start = False
+        self.vertlix,self.vertliy = 240+self.add,500
+    def fps(self):
+        self.spfont.render_to(self.screen, (0,690), str(round(self.clock.get_fps())), self.color["white"])
     def score(self):
         # Render score on the display 
         self.spfont.render_to(self.screen, (0,0), ('Your Score: ' + str(self.scorecount)), self.color["white"])
@@ -107,7 +137,7 @@ class Game:
     def iscoll(self,x1,x2,y1,y2):
         # Collision function
         x2 -=5
-        # Collsion formula
+        # Collision formula
         dis = math.sqrt(math.pow(x2-x1,2)+ math.pow(y2-y1,2))
         if dis>76:
             return False
@@ -116,7 +146,6 @@ class Game:
     def background(self):
         # Background render function
         self.screen.blit(self.backgroundimg, (0,0))
-    def ground(self):
         # Ground render and Ground move
         self.grx -= self.grspeed
         self.screen.blit(self.groundimg, (self.grx,500))
@@ -138,23 +167,14 @@ class Game:
             if event.type == pygame.KEYDOWN and not self.gover:
                 if event.key == pygame.K_ESCAPE and not self.inmenu:
                     # self.quit = True
-                    self.grspeed, self.fall = 0,0
-                    self.enemy.speed,self.player.speed = 0,0
+                    self.pause()
                     self.inmenu = True
                     self.fquit()
                 if event.key == pygame.K_ESCAPE and self.inmenu:
-                    self.fall = 0.2
-                    self.grspeed = 3
-                    self.enemy.speed,self.player.speed = 7,5.8
-                    self.gover = False
-                    self.inmenu = False
+                    self.fstart()
                     self.run()
                 if event.key == pygame.K_SPACE and not self.start:
-                    self.fall = 0.2
-                    self.grspeed = 3
-                    self.enemy.speed,self.player.speed = 7,5.8
-                    self.gover = False
-                    self.inmenu = False
+                    self.fstart()
                     self.start = True
                     self.run()
                 if event.key == pygame.K_SPACE and self.jumpindex != 0:
@@ -166,12 +186,6 @@ class Game:
                 if event.key == pygame.K_RETURN and (self.mind%2) == 0 and self.inmenu:
                     self.quit = True
                 if event.key == pygame.K_RETURN and (self.mind%2) == 1 and self.inmenu:
-                    self.fall = 0.2
-                    self.grspeed = 3
-                    self.speed = 5.8
-                    self.espeed = 7
-                    self.inmenu = False
-                    self.gover = False
                     self.run()
             if event.type == pygame.KEYDOWN and self.gover:
                 if event.key == pygame.K_RIGHT:
@@ -181,27 +195,7 @@ class Game:
                 if event.key == pygame.K_RETURN and (self.mind%2) == 1:
                     self.quit = True
                 if event.key == pygame.K_RETURN and (self.mind%2) == 0:
-                    self.grx = 0
-                    self.Lwidth = 3
-                    self.x = 350
-                    self.y = 400
-                    self.ex = 900
-                    self.ey = 420
-                    self.ind = 0
-                    self.cooldown = 400
-                    self.enemy.speed,self.player.speed = 7,5.8
-                    self.mass = 1
-                    self.scorecount = 0
-                    self.jumpindex = 0
-                    self.is_jump = False
-                    self.grspeed = 3
-                    self.quit = False
-                    self.gover = False
-                    self.inmenu = False
-                    self.mind = 0
-                    self.fall = 0.2
-                    self.start = False
-                    self.vertlix,self.vertliy = 240+self.add,500
+                    self.restart()
                     self.run()
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE:
@@ -225,10 +219,9 @@ class Game:
                 self.mass = 1
                 self.player.speed = 5.8
         # Collision function
-        if self.iscoll(self.player.x, self.enemy.x,self.player.y,self.enemy.y) and not self.gover:
+        if self.player.is_collision(self.enemy) and not self.gover:
             self.gover = True
             self.game_over()
-            
         if self.enemy.x <= -90:
             self.enemy.x = 1100
         # Score counting
@@ -244,51 +237,19 @@ class Game:
         else:
             self.Hno = False
         if not self.start:
-            self.grspeed, self.fall = 0,0
-            self.enemy.speed,self.player.speed = 0,0
+            self.pause()
         self.vertlix -= self.grspeed
-
-
-
     def mouse_detection(self):
         if self.mouse[0] and self.Hyes and not self.gover:
             self.quit = True
         if self.mouse[0] and self.Hno and not self.gover:
-                self.fall = 0.2
-                self.grspeed = 3
-                self.enemy.speed,self.player.speed = 7,5.8
-                self.inmenu = False
-                self.gover = False
+                self.fstart()
                 self.run()
         if self.mouse[0] and self.Hno and self.gover:
             self.quit = True
         if self.mouse[0] and self.Hyes and self.gover:
-            self.grx = 0
-            self.Lwidth = 3
-            self.x = 350
-            self.y = 400
-            self.ex = 900
-            self.ey = 420
-            self.ind = 0
-            self.cooldown = 400
-            self.enemy.speed,self.player.speed = 7,5.8
-            self.jumpindex = 0
-            self.mass = 1
-            self.scorecount = 0
-            self.is_jump = False
-            self.grspeed = 3
-            self.quit = False
-            self.gover = False
-            self.inmenu = False
-            self.mind = 0
-            self.fall = 0.2
-            self.start = False
-            self.vertlix,self.vertliy = 240+self.add,500
+            self.restart()
             self.run()
-            
-
-
-
     def fquit(self):
         while not self.quit and not self.gover:
             self.screen.blit(self.pause_surf, (0,0))
@@ -306,7 +267,7 @@ class Game:
                 self.nocol = self.color["dark_white"]
             self.textf('YES', 350, 340, self.yescol)
             self.textf('NO', 850, 340, self.nocol)
-            pygame.display.update()
+            pygame.display.flip()
     def game_over(self):
         while not self.quit and self.gover:
             self.screen.blit(self.pause_surf,(0,0))
@@ -324,7 +285,7 @@ class Game:
                 self.nocol = self.color["dark_white"]
             self.textf('YES', 350, 340, self.yescol)
             self.textf('NO', 850, 340, self.nocol)
-            pygame.display.update()
+            pygame.display.flip()
 
     def run(self):
         while not self.quit:
@@ -332,8 +293,7 @@ class Game:
             self.fevent()
             self.event()
             # Moving background
-            self.background()
-            self.ground()
+            self.background() 
             self.line()
             if self.vertlix>self.stop_render:
                 self.high_score()
@@ -345,4 +305,5 @@ class Game:
             self.score()
             # Update and Tick function
             self.clock.tick(self.FPS)
-            pygame.display.update()
+            self.fps()
+            pygame.display.flip()

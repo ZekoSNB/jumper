@@ -5,11 +5,8 @@ class CanvObj(abc.ABC):
         self.x = x
         self.y = y
         self.screen = screen
-
-    def is_colistion(self, other: 'CanvObj'):
-        # x2 -=5
-        # Collsion formula
-        dis = math.sqrt(math.pow(self.enemy.x-self.player.x,2)+ math.pow(self.enemy.y-self.player.y,2))
+    def is_collision(self, other: 'CanvObj'):
+        dis = math.sqrt(math.pow(other.x-self.x,2)+ math.pow(other.y-self.y,2))
         if dis>76:
             return False
         if dis<76:
