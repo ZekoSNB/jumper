@@ -1,4 +1,4 @@
-from files.canvas_obj import Obj
+from jumper.canvas_obj import Obj
 
 class Enemy(Obj):
     def __init__(self) -> None:

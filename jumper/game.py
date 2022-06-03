@@ -1,8 +1,7 @@
 import pygame
-# from files.menu import Menu
-from files.jumper import Player
-from files.screnemy import Enemy
-from files.canvas_obj import Obj
+from jumper.player import Player
+from jumper.screnemy import Enemy
+from jumper.canvas_obj import Obj
 class Game(Obj):
     def __init__(self) -> None:
         # Passing the Obj __init__ into Game.__init__

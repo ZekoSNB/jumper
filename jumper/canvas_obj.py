@@ -26,7 +26,7 @@ class Obj:
         self.spfont = pygame.freetype.Font('assets/fonts/SPACE.ttf', 32)
         self.spfont1 = pygame.freetype.Font('assets/fonts/SPACE.ttf', 28)
         # Variables 
-        with open('files/JSON/settings.json', 'r') as f:
+        with open('jumper/JSON/settings.json', 'r') as f:
             self.data = json.load(f)
             f.close()
         self.color = {
@@ -45,7 +45,7 @@ class Obj:
         self.x = 350
         self.y = 400
         self.ex = 1100
-        self.ey = 42
+        self.ey = 420
         self.ind = 0
         self.cooldown = 400
         self.speed = 5.8

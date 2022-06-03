@@ -1,4 +1,4 @@
-from files.game import Game
+from jumper.game import Game
 
 def main():
     g = Game()
