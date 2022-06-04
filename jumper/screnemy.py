@@ -6,5 +6,9 @@ class Enemy(CanvObj):
         self.enemyimg = pygame.image.load('assets/images/enemy1.png')
         self.enemyimg = pygame.transform.scale(self.enemyimg, (80,80))
         self.speed = speed
+
     def render(self):
+        self.x -= self.speed
+        if self.x <= -90:
+            self.x = 1360
         self.screen.blit(self.enemyimg, (self.x,self.y))
