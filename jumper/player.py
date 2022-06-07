@@ -33,11 +33,11 @@ class Player(CanvObj):
                 self.mass = 1
                 self.speed = 5.8
                 self.state = PlayerState.NOJUMP
-        print(self.state)
         self.screen.blit(self.pli[self.state], (self.x,self.y))
         
     def jump(self):
         self.state = PlayerState.JUMP
     
     def crouch(self):
-        self.state = PlayerState.CROUCH
+        if self.state != PlayerState.JUMP:
+            self.state = PlayerState.CROUCH

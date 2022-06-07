@@ -42,6 +42,7 @@ class Game:
         self.start = False
         self.mind = 0 
         self.jumpindex = 0
+        self.pressed_keys = set()
         self.mx,self.my = pygame.mouse.get_pos()
         self.mouse = pygame.mouse.get_pressed()
         self.pause_surf = pygame.Surface((self.WIDTH, self.HEIGHT))
@@ -70,9 +71,10 @@ class Game:
         self.player = Player(350,400, self.screen,5.8)
 
     def save_data(self):
-        with open('jumper/JSON/settings.json', 'w'):
+        with open('jumper/JSON/settings.json', 'w') as f:
             if self.data["HIGHEST"] < self.scorecount:
                 self.data["HIGHEST"] = self.scorecount
+            json.dump(f,self.data)
 
     def pause(self):
             self.grspeed, self.fall = 0,0
@@ -84,6 +86,7 @@ class Game:
         self.enemy.speed,self.player.speed = 7,5.8
         self.gover = False
         self.inmenu = False
+
     def restart(self):
         self.grx = 0
         self.Lwidth = 3
@@ -156,12 +159,14 @@ class Game:
         if self.grx == -width:
             self.screen.blit(self.groundimg, (width+self.grx,500))
             self.grx = 0
+
     def line(self):
         #* Line between background and ground
         pygame.draw.line(self.screen, (255,255,255),(0,500), (1280, 500), self.Lwidth)
         if self.vertlix>-10:
             pygame.draw.line(self.screen, (255,255,255),(self.vertlix,self.vertliy), (self.vertlix, (self.vertliy+220)), self.Lwidth)
     #* even function to check user input
+
     def fevent(self):
         #* Event Loop for the keys etc.
         for event in pygame.event.get():
@@ -169,7 +174,6 @@ class Game:
                 self.quit = True
             if event.type == pygame.KEYDOWN and not self.gover:
                 if event.key == pygame.K_ESCAPE and not self.inmenu:
-                    #* self.quit = True
                     self.pause()
                     self.inmenu = True
                     self.fquit()

@@ -1,5 +1,4 @@
 all:
-
 run:
 	python run.py 
 clean:
