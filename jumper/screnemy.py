@@ -8,7 +8,9 @@ class Enemy(CanvObj):
         self.speed = speed
 
     def render(self):
+        #* moving the enemy
         self.x -= self.speed
+        #* If enemy is behind player/border move it infront of player
         if self.x <= -90:
             self.x = 1360
         self.screen.blit(self.enemyimg, (self.x,self.y))

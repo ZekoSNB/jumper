@@ -7,6 +7,7 @@ class CanvObj(abc.ABC):
         self.screen = screen
 
     def is_collision(self, other: 'CanvObj', zone):
+        #* Collision Formula
         dis = math.sqrt(math.pow(other.x-self.x,2)+ math.pow(other.y-self.y,2))
         if dis>zone:
             return False

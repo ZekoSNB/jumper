@@ -17,7 +17,7 @@ class Game:
         self.pyfont = pygame.font.Font('assets/fonts/SPACE.ttf', 32)
         self.spfont = pygame.freetype.Font('assets/fonts/SPACE.ttf', 32)
         self.spfont1 = pygame.freetype.Font('assets/fonts/SPACE.ttf', 28)
-        # Variables 
+        #* Variables 
         with open('jumper/JSON/settings.json', 'r') as f:
             self.data = json.load(f)
             f.close()
@@ -58,7 +58,7 @@ class Game:
         self.starte = self.pyfont.render("Press       to start the game", True,self.color["white"])
         self.spacete = self.pyfont.render("SPACE", True, self.color["white"],self.color["black"])
         self.clock = pygame.time.Clock()
-        # vertical line x = vertlix | vertical line y = vertliy
+        #! vertical line x = vertlix | vertical line y = vertliy
         self.vertlix,self.vertliy = 240,500
         self.add = 0
         self.listscore = list(str(self.hiscore))
@@ -143,7 +143,7 @@ class Game:
         #* Collision function
         x2 -=5
         #* Collision formula
-        dis = math.sqrt(math.pow(x2-x1,2)+ math.pow(y2-y1,2))
+        dis = math.sqrt(math.pow(x2-from files.canvas_obj import Objx1,2)+ math.pow(y2-y1,2))
         if dis>76:
             return False
         if dis<76:
@@ -282,21 +282,21 @@ class Game:
 
     def run(self):
         while not self.quit:
-            # Event function
+            #* Event function
             self.fevent()
             self.event()
-            # Moving background
+            #* Moving background
             self.background() 
             self.line()
             if self.vertlix>self.stop_render:
                 self.high_score()
                 self.start_text()
-            # Model rendering functions
+            #* Model rendering functions
             self.player.render()
             self.enemy.render()
-            # Text functions
+            #* Text functions
             self.score()
-            # Update and Tick function
+            #* Update and Tick function
             self.clock.tick(self.FPS)
             self.fps()
             pygame.display.flip()
