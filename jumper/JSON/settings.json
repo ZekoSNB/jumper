@@ -1,4 +1,5 @@
 {
     "FPS": 60,
-    "HIGHEST": 23
+    "HIGHEST": 23,
+    "SHOW_FPS": true
 }

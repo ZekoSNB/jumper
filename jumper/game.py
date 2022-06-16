@@ -107,10 +107,13 @@ class Game:
         self.start = False
         self.vertlix,self.vertliy = 240+self.add,500
 
-    def fps(self):
-        self.spfont.render_to(self.screen, (0,690), str(round(self.clock.get_fps())), self.color["white"])
-
-    def score(self):
+    def texts(self):
+        if self.data["SHOW_FPS"]:
+            self.spfont.render_to(self.screen, (0,690), str(round(self.clock.get_fps())), self.color["white"])
+        if self.vertlix>self.stop_render:
+            self.screen.blit(self.text, ((self.vertlix-240-self.add), 532))
+            self.screen.blit(self.starte, ((self.vertlix+30), self.vertliy+30))
+            self.screen.blit(self.spacete,((self.vertlix+200), (self.vertliy+30)))
         #* Render score on the display 
         self.spfont.render_to(self.screen, (0,0), ('Your Score: ' + str(self.scorecount)), self.color["white"])
 
@@ -131,23 +134,6 @@ class Game:
             return True
         else: 
             return False
-
-    def high_score(self):
-        self.screen.blit(self.text, ((self.vertlix-240-self.add), 532))
-
-    def start_text(self):
-        self.screen.blit(self.starte, ((self.vertlix+30), self.vertliy+30))
-        self.screen.blit(self.spacete,((self.vertlix+200), (self.vertliy+30)))
-
-    def iscoll(self,x1,x2,y1,y2):
-        #* Collision function
-        x2 -=5
-        #* Collision formula
-        dis = math.sqrt(math.pow(x2-from files.canvas_obj import Objx1,2)+ math.pow(y2-y1,2))
-        if dis>76:
-            return False
-        if dis<76:
-            return True
 
     def background(self):
         #* Background render function
@@ -288,9 +274,6 @@ class Game:
             #* Moving background
             self.background() 
             self.line()
-            if self.vertlix>self.stop_render:
-                self.high_score()
-                self.start_text()
             #* Model rendering functions
             self.player.render()
             self.enemy.render()
@@ -298,5 +281,4 @@ class Game:
             self.score()
             #* Update and Tick function
             self.clock.tick(self.FPS)
-            self.fps()
             pygame.display.flip()
