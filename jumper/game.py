@@ -1,6 +1,9 @@
 import pygame, math, pygame.freetype, json
 from jumper.player import Player
 from jumper.screnemy import Enemy
+from jumper.calculate import Calculate
+
+
 class Game:
     def __init__(self) -> None:
         # Initializing the Modules
@@ -69,6 +72,7 @@ class Game:
         self.vertlix += self.add
         self.enemy = Enemy(1100,420,self.screen,7)
         self.player = Player(350,400, self.screen,5.8)
+        self.calc = Calculate()
 
     def save_data(self):
         with open('jumper/JSON/settings.json', 'w') as f:
@@ -121,20 +125,6 @@ class Game:
         #* Rendering any text 
         self.spfont.render_to(self.screen, (x,y), text, color)
 
-    def hover(self,x,y,height,width):
-        if self.mx<=(x+width) and self.mx>= x:
-            self.statex = True
-        else: 
-            self.statex = False
-        if self.my<=(y+height) and self.my>= y:
-            self.statey = True
-        else:
-            self.statey = False
-        if self.statex and self.statey:
-            return True
-        else: 
-            return False
-
     def background(self):
         #* Background render function
         self.screen.blit(self.backgroundimg, (0,0))
@@ -158,38 +148,52 @@ class Game:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.quit = True
+
             if event.type == pygame.KEYDOWN and not self.gover:
                 if event.key == pygame.K_ESCAPE and not self.inmenu:
                     self.pause()
                     self.inmenu = True
                     self.fquit()
+
                 if event.key == pygame.K_ESCAPE and self.inmenu:
                     self.fstart()
                     self.run()
+
                 if event.key == pygame.K_SPACE and not self.start:
                     self.fstart()
                     self.start = True
                     self.run()
+
                 if event.key == pygame.K_SPACE and self.jumpindex != 0:
                     self.player.crouch()
+
                 if event.key == pygame.K_RIGHT:
                     self.mind += 1
+
                 if event.key == pygame.K_LEFT:
                     self.mind -= 1
+
                 if event.key == pygame.K_RETURN and (self.mind%2) == 0 and self.inmenu:
                     self.quit = True
+
                 if event.key == pygame.K_RETURN and (self.mind%2) == 1 and self.inmenu:
                     self.run()
+
             if event.type == pygame.KEYDOWN and self.gover:
+
                 if event.key == pygame.K_RIGHT:
                     self.mind += 1
+                    
                 if event.key == pygame.K_LEFT:
                     self.mind -= 1
+
                 if event.key == pygame.K_RETURN and (self.mind%2) == 1:
                     self.quit = True
+
                 if event.key == pygame.K_RETURN and (self.mind%2) == 0:
                     self.restart()
                     self.run()
+
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE:
                     if self.jumpindex != 0:
@@ -217,14 +221,14 @@ class Game:
         self.vertlix -= self.grspeed
 
     def mouse_detection(self):
-        if self.mouse[0] and self.hover(350,340,32,96) and not self.gover:
+        if self.mouse[0] and self.calc.hover(350,340,32,96) and not self.gover:
             self.quit = True
-        if self.mouse[0] and self.hover(850,340,32,64) and not self.gover:
+        if self.mouse[0] and self.calc.hover(850,340,32,64) and not self.gover:
                 self.fstart()
                 self.run()
-        if self.mouse[0] and self.hover(850,340,32,64) and self.gover:
+        if self.mouse[0] and self.calc.hover(850,340,32,64) and self.gover:
             self.quit = True
-        if self.mouse[0] and self.hover(350,340,32,96) and self.gover:
+        if self.mouse[0] and self.calc.hover(350,340,32,96) and self.gover:
             self.restart()
             self.run()
 
@@ -235,11 +239,11 @@ class Game:
             self.event()
             self.fevent()
             self.textf('Do you want to quit?',360,260,self.color["white"])
-            if (self.mind%2) == 0 or self.hover(350,340,32,96):
+            if (self.mind%2) == 0 or self.calc.hover(350,340,32,96):
                 self.mind = 0
                 self.yescol = self.color["dark_white"]
                 self.nocol = self.color["silver"]
-            if (self.mind%2) == 1 or self.hover(850,340,32,64):
+            if (self.mind%2) == 1 or self.calc.hover(850,340,32,64):
                 self.mind = 1
                 self.yescol = self.color["silver"]
                 self.nocol = self.color["dark_white"]
@@ -254,11 +258,11 @@ class Game:
             self.event()
             self.fevent()
             self.textf('Do you want to Restart?',320,260,self.color["white"])
-            if (self.mind%2) == 0 or self.hover(350,340,32,96):
+            if (self.mind%2) == 0 or self.calc.hover(350,340,32,96):
                 self.mind = 0
                 self.yescol = self.color["dark_white"]
                 self.nocol = self.color["silver"]
-            if (self.mind%2) == 1 or self.hover(850,340,32,64):
+            if (self.mind%2) == 1 or self.calc.hover(850,340,32,64):
                 self.mind = 1
                 self.yescol = self.color["silver"]
                 self.nocol = self.color["dark_white"]
@@ -278,7 +282,7 @@ class Game:
             self.player.render()
             self.enemy.render()
             #* Text functions
-            # self.score()
+            self.texts()
             #* Update and Tick function
             self.clock.tick(self.FPS)
             pygame.display.flip()
