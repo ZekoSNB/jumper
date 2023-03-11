@@ -6,7 +6,7 @@ class Game:
         # Initializing the Modules
         pygame.init()
         self.icon = pygame.image.load('assets/images/icon.png')
-        self.backgroundload = pygame.image.load('assets/images/background4.png')
+        self.backgroundload = pygame.image.load('assets/images/background3.png')
         self.groundimg = pygame.image.load('assets/images/ground_full.png')
         self.groundimg = pygame.transform.scale(self.groundimg, (8000, 280))
         self.backgroundimg = pygame.transform.scale(self.backgroundload, (1280,520))
@@ -278,7 +278,7 @@ class Game:
             self.player.render()
             self.enemy.render()
             #* Text functions
-            self.score()
+            # self.score()
             #* Update and Tick function
             self.clock.tick(self.FPS)
             pygame.display.flip()
