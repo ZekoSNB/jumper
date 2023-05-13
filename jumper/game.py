@@ -177,6 +177,7 @@ class Game:
                     self.quit = True
 
                 if event.key == pygame.K_RETURN and (self.mind%2) == 1 and self.inmenu:
+                    self.fstart()
                     self.run()
 
             if event.type == pygame.KEYDOWN and self.gover:
