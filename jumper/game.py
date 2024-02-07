@@ -1,12 +1,15 @@
-import pygame, math, pygame.freetype, json
+import pygame, pygame.freetype, json
 from jumper.player import Player
 from jumper.screnemy import Enemy
 from jumper.calculate import Calculate
 
 
 class Game:
+
     def __init__(self) -> None:
+
         # Initializing the Modules
+
         pygame.init()
         self.icon = pygame.image.load('assets/images/icon.png')
         self.backgroundload = pygame.image.load('assets/images/background3.png')
@@ -20,6 +23,7 @@ class Game:
         self.pyfont = pygame.font.Font('assets/fonts/SPACE.ttf', 32)
         self.spfont = pygame.freetype.Font('assets/fonts/SPACE.ttf', 32)
         self.spfont1 = pygame.freetype.Font('assets/fonts/SPACE.ttf', 28)
+        
         #* Variables 
         with open('jumper/JSON/settings.json', 'r') as f:
             self.data = json.load(f)
@@ -181,6 +185,7 @@ class Game:
                     self.run()
 
             if event.type == pygame.KEYDOWN and self.gover:
+
 
                 if event.key == pygame.K_RIGHT:
                     self.mind += 1

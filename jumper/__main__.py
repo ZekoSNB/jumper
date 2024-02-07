@@ -1,6 +1,6 @@
 from jumper.game import Game
 
-def main():
+def main() -> int:
     g = Game()
     g.run()
     return 0 
