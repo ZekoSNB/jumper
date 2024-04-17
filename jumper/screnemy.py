@@ -1,5 +1,7 @@
 from jumper.canvas_obj import CanvObj
 import pygame
+
+
 class Enemy(CanvObj):
     def __init__(self,x,y,screen,speed) -> None:
         super().__init__(x,y,screen)
